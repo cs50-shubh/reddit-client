@@ -1,30 +1,21 @@
 import {
-    PRODUCTS_FOR_SALE,
-    PRODUCTS_FOR_SALE_SUCCESS,
-    PRODUCTS_FOR_SALE_ERROR,
-    PURCHASE_PRODUCT,
-    PURCHASE_PRODUCT_SUCCESS,
-    PURCHASE_PRODUCT_ERROR,
-    USER_BALANCE_HISTORY,
-    USER_BALANCE_HISTORY_ERROR,
-    USER_BALANCE_HISTORY_SUCCESS,
-    BUY_CREDIT,
-    BUY_CREDIT_SUCCESS,
-    BUY_CREDIT_ERROR
+    FETCH_CAMPAIGNS,
+    FETCH_CAMPAIGNS_SUCCESS,
+    FETCH_CAMPAIGNS_ERROR,
+    ADD_CAMPAIGN,
+    ADD_CAMPAIGN_SUCCESS,
+    ADD_CAMPAIGN_ERROR,
+    EDIT_CAMPAIGN,
+    EDIT_CAMPAIGN_ERROR,
+    EDIT_CAMPAIGN_SUCCESS,
+    DELETE_CAMPAIGN,
+    DELETE_CAMPAIGN_SUCCESS,
+    DELETE_CAMPAIGN_ERROR
 } from './transaction.action';
 
 const INIT_STATE = {
-    user:
-    {
-        id: null,
-        email: '',
-        name: '',
-        role: '',
-        designation: '',
-        profilePicture: ''
-    },
-    productList: [],
-    history: [],
+    campaignList: [],
+    campaign: [],
     loading: false,
     error: '',
     message: ''
@@ -32,39 +23,29 @@ const INIT_STATE = {
 
 export default (state = INIT_STATE, action) => {
     switch (action.type) {
-        case PURCHASE_PRODUCT:
+        case FETCH_CAMPAIGNS:
             return { ...state, loading: true, error: '' };
-        case PURCHASE_PRODUCT_SUCCESS:
-            return { ...state, loading: false, error: '' };
-        case PURCHASE_PRODUCT_ERROR:
+        case FETCH_CAMPAIGNS_SUCCESS:
+            return { ...state, loading: false, error: '', campaignList: action.payload.item };
+        case FETCH_CAMPAIGNS_ERROR:
             return { ...state, loading: false, error: action.payload.message };
-        case BUY_CREDIT:
+        case ADD_CAMPAIGN:
             return { ...state, loading: true, error: '' };
-        case BUY_CREDIT_SUCCESS:
+        case ADD_CAMPAIGN_SUCCESS:
             return { ...state, loading: false, error: '' };
-        case BUY_CREDIT_ERROR:
+        case ADD_CAMPAIGN_ERROR:
             return { ...state, loading: false, error: action.payload.message };
-        case PRODUCTS_FOR_SALE:
+        case EDIT_CAMPAIGN:
             return { ...state, loading: true, error: "" };
-        case PRODUCTS_FOR_SALE_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                error: "",
-                productList: action.payload.products
-            };
-        case PRODUCTS_FOR_SALE_ERROR:
+        case EDIT_CAMPAIGN_SUCCESS:
+            return { ...state, loading: false, error: "" };
+        case EDIT_CAMPAIGN_ERROR:
             return { ...state, loading: false, error: action.payload.message };
-        case USER_BALANCE_HISTORY:
+        case DELETE_CAMPAIGN:
             return { ...state, loading: true, error: "" };
-        case USER_BALANCE_HISTORY_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                error: "",
-                history: action.payload.history
-            };
-        case USER_BALANCE_HISTORY_ERROR:
+        case DELETE_CAMPAIGN_SUCCESS:
+            return { ...state, loading: false, error: "" };
+        case DELETE_CAMPAIGN_ERROR:
             return { ...state, loading: false, error: action.payload.message };
         default: return { ...state };
 

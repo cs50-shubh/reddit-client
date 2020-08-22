@@ -1,12 +1,12 @@
 import { all, spawn, call, put } from "redux-saga/effects";
-import forSale from './transactions/transaction.saga'
+import campaigns from './transactions/transaction.saga'
 import { actions as toastr } from 'react-redux-toastr'
 
 //https://redux-saga.js.org/docs/advanced/RootSaga.html
 // Keep Everything Alive , Automatically restart sagas after crash
 export default function* rootSaga(getState) {
     const sagas = [
-        forSale
+        campaigns
     ];
 
     yield all(

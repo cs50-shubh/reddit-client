@@ -6,116 +6,118 @@ import {
     takeLatest
 } from "redux-saga/effects";
 import {
-    USER_BALANCE_HISTORY,
-    PRODUCTS_FOR_SALE,
-    PURCHASE_PRODUCT,
-    BUY_CREDIT
+    FETCH_CAMPAIGNS,
+    ADD_CAMPAIGN,
+    EDIT_CAMPAIGN,
+    DELETE_CAMPAIGN
 } from "./transaction.action";
 
 import {
-    productForSaleError,
-    productForSaleSuccess,
-    purchaseProductSuccess,
-    purchaseProductError,
-    userBalanceHistorySuccess,
-    userBalanceHistoryError,
-    buyCreditSuccess,
-    buyCreditError
+    fetchCampaigns,
+    fetchCampaignsSuccess,
+    fetchCampaignsError,
+    addCampaignSuccess,
+    addCampaignError,
+    editCampaignSuccess,
+    editCampaignError,
+    deleteCampaignSuccess,
+    deleteCampaignError
 } from "./transaction.action";
 import Api from "../../constants/Api";
-import { ACCESS_TOKEN, USER_DATA } from "../../constants/storage";
 
 
-export function* watchPurchaseProduct() {
-    yield takeLatest(PURCHASE_PRODUCT, purchaseNewProduct);
+export function* watchFetchCampaigns() {
+    yield takeLatest(FETCH_CAMPAIGNS, fetchAllCampaigns);
 }
 
-const purchaseNewProductAsync = async (data) =>
-    await Api.post("/purchaseProduct", data).then(
+const fetchAllCampaignsAsync = async () =>
+    await Api.get("/all").then(
         response => response.data
     );
 
-function* purchaseNewProduct({ payload: { product } }) {
+function* fetchAllCampaigns() {
     try {
-        const { message, data } = yield call(purchaseNewProductAsync, product);
+        const data = yield call(fetchAllCampaignsAsync);
         if (data) {
-            yield put(purchaseProductSuccess(data));
-            // Router.push("/my/products");
-            // yield put(toastr.add({ type: 'success', message }));
-        } else {
-            yield put(purchaseProductError(message));
-            // yield put(toastr.add({ type: 'error', message }));
-        }
-    } catch (error) {
-        const message = error.message
-        yield put(
-            purchaseProductError(
-                message
-            )
-        );
-        // yield put(toastr.add({ type: 'error', message }));
-    }
-}
-
-
-
-export function* watchBuyCredit() {
-    yield takeLatest(BUY_CREDIT, buyCreditBalance);
-}
-
-const buyCreditAsync = async (data) =>
-    await Api.post("/requestBalance", data).then(
-        response => response.data
-    );
-
-function* buyCreditBalance({ payload: { credit } }) {
-    try {
-        const { success, message, data } = yield call(buyCreditAsync, credit);
-        if (success) {
-            yield put(buyCreditSuccess(data));
-            // Router.push("/my/balance");
-            // yield put(toastr.add({ type: 'success', message }));
-        } else {
-            yield put(buyCreditError(message));
-            // yield put(toastr.add({ type: 'error', message }));
-        }
-    } catch (error) {
-        const message = error.message
-        yield put(
-            buyCreditError(
-                message
-            )
-        );
-        // yield put(toastr.add({ type: 'error', message }));
-    }
-}
-
-
-
-export function* watchProductsForSale() {
-    yield takeLatest(PRODUCTS_FOR_SALE, productForSaleList);
-}
-
-const productForSaleAsync = async () => {
-    return await Api.get("/listProduct").then(
-        response => response.data
-    );
-};
-
-function* productForSaleList() {
-    try {
-        const data = yield call(productForSaleAsync);
-        if (data) {
-            yield put(productForSaleSuccess(data));
+            yield put(fetchCampaignsSuccess(data));
         } else {
             const message = "No Data Fetched"
-            yield put(productForSaleError(message));
+            yield put(fetchCampaignsError(message));
             // yield put(toastr.add({ type: 'error', message }));
         }
     } catch (error) {
         const message = error.message
         yield put(
-            productForSaleError(
+            fetchCampaignsError(
+                message
+            )
+        );
+        // yield put(toastr.add({ type: 'error', message }));
+    }
+
+}
+
+export function* watchAddCampaign() {
+    yield takeLatest(ADD_CAMPAIGN, addNewCampaign);
+}
+
+const addNewCampaignAsync = async (data) =>
+    await Api.post("/create", data).then(
+        response => response.data
+    );
+
+function* addNewCampaign({ payload: { item } }) {
+    try {
+        const data = yield call(addNewCampaignAsync, item);
+        if (data) {
+            yield call(fetchAllCampaigns)
+            yield put(addCampaignSuccess(data));
+            // yield put(toastr.add({ type: 'success', message }));
+        } else {
+            yield put(addCampaignError("Error: Failed"));
+            // yield put(toastr.add({ type: 'error', message }));
+        }
+    } catch (error) {
+        const message = error.message
+        yield put(
+            addCampaignError(
+                message
+            )
+        );
+        // yield put(toastr.add({ type: 'error', message }));
+    }
+}
+
+
+export function* watchEditCampaign() {
+    yield takeLatest(EDIT_CAMPAIGN, editCampaign);
+}
+
+const editCampaignAsync = async (data) => {
+    const id = data.id
+    delete data.id
+    const res = await Api.put("/update/" + id, data).then(
+        response => response.data
+    );
+    return res;
+}
+
+function* editCampaign({ payload: { item } }) {
+    try {
+        const data = yield call(editCampaignAsync, item);
+        console.log(data)
+        if (data) {
+            yield call(fetchAllCampaigns)
+            yield put(editCampaignSuccess(data));
+            // yield put(toastr.Edit({ type: 'success', message }));
+        } else {
+            yield put(editCampaignError("Error: Failed"));
+            // yield put(toastr.Edit({ type: 'error', message }));
+        }
+    } catch (error) {
+        const message = error.message
+        yield put(
+            editCampaignError(
                 message
             )
         );
@@ -125,32 +127,32 @@ function* productForSaleList() {
 
 
 
-export function* watchUserBalanceHistory() {
-    yield takeLatest(USER_BALANCE_HISTORY, userBalanceHistoryList);
+export function* watchDeleteCampaign() {
+    yield takeLatest(DELETE_CAMPAIGN, deleteCampaign);
 }
 
-const userBalanceHistoryAsync = async () => {
-    const userId = localStorage.getItem('user_data').split('"')[3]
-    return await Api.get("/fetchBalance?userId=" + userId).then(
+const deleteCampaignAsync = async (data) => {
+    return await Api.delete("/delete/" + data).then(
         response => response.data
 
     )
 };
 
-function* userBalanceHistoryList() {
+function* deleteCampaign({ payload: { item } }) {
     try {
-        const data = yield call(userBalanceHistoryAsync);
+        const data = yield call(deleteCampaignAsync, item);
         if (data) {
-            yield put(userBalanceHistorySuccess(data));
+            yield call(fetchAllCampaigns)
+            yield put(deleteCampaignSuccess(data));
         } else {
-            const message = "No Data Fetched"
-            yield put(userBalanceHistoryError(message));
+            const message = "Error: Campaign not deleted"
+            yield put(deleteCampaignError(message));
             // yield put(toastr.add({ type: 'error', message }));
         }
     } catch (error) {
         const message = error.message
         yield put(
-            userBalanceHistoryError(
+            deleteCampaignError(
                 message
             )
         );
@@ -161,9 +163,9 @@ function* userBalanceHistoryList() {
 
 export default function* rootSaga() {
     yield all([
-        fork(watchPurchaseProduct),
-        fork(watchProductsForSale),
-        fork(watchUserBalanceHistory),
-        fork(watchBuyCredit)
+        fork(watchFetchCampaigns),
+        fork(watchAddCampaign),
+        fork(watchEditCampaign),
+        fork(watchDeleteCampaign)
     ]);
 }

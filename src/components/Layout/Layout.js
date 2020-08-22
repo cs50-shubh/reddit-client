@@ -1,8 +1,7 @@
 import React from 'react';
-// import styles from './Layout.module.css';
 import { PageHeader, Tabs, Button, Descriptions } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
 import Table from '../main/Table';
+import NewCampaignModal from '../CampaignModals/NewCampaignModal'
 
 const { TabPane } = Tabs;
 
@@ -27,23 +26,14 @@ const Layout = () => {
       title="Campaign-E"
       subTitle="A One Stop Solution to Email Campaigns"
       extra={[
-        <Button
-          key="1"
-          type="primary"
-          danger
-          icon={<PlusOutlined />}
-        >
-          Start New Campaign
-        </Button>,
+        <NewCampaignModal />,
       ]}
       footer={
         <Tabs defaultActiveKey="1">
-          <TabPane tab="Details" key="1"><Table /></TabPane>
-          <TabPane tab="Rule" key="2" />
+          <TabPane tab="Campaigns" key="1"><Table /></TabPane>
         </Tabs>
       }
     >
-      {/* <Content extra={extraContent}>{renderContent()}</Content> */}
     </PageHeader>
   );
 }

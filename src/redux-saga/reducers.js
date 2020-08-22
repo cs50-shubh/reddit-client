@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import forSale from './transactions/transaction.reducer'
+import campaigns from './transactions/transaction.reducer'
 
 
 const reducers = combineReducers({
-    forSale
+    campaigns
 });
 
 export default reducers;

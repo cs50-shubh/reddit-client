@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import { Button, Modal, Row, Col } from 'antd';
-import { editCampaign } from '../../redux-saga/transactions/transaction.action'
+import { addCampaign } from '../../redux-saga/transactions/transaction.action'
 import { connect } from 'react-redux';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import EditorToolbar, { modules, formats } from './QuillToolbar'
 import { Tag, Input, DatePicker } from 'antd';
 import { TweenOneGroup } from 'rc-tween-one';
-import { PlusOutlined, CheckCircleOutlined, ToolOutlined } from '@ant-design/icons';
-import moment from 'moment'
+import { PlusOutlined, CheckCircleOutlined } from '@ant-design/icons';
 
-class CampaignDetailModal extends Component {
+class NewCampaignModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -28,15 +27,6 @@ class CampaignDetailModal extends Component {
         this.saveName = this.saveName.bind(this)
         this.saveContent = this.saveContent.bind(this)
     };
-    componentDidMount() {
-        if (this.props.details)
-            this.setState({
-                ...this.state,
-                ...this.props.details,
-                tags: this.props.details ? this.props.details.targets : this.state.tags,
-                date: new Date(this.props.details ? this.props.details.date : null)
-            })
-    }
     handleClose = removedTag => {
         const tags = this.state.tags.filter(tag => tag !== removedTag);
         this.setState({ tags });
@@ -104,10 +94,9 @@ class CampaignDetailModal extends Component {
             this.state.content &&
             this.state.date &&
             this.state.tags) {
-            const { editCampaign } = this.props
+            const { addCampaign } = this.props
             setTimeout(() => {
-                editCampaign({
-                    id: this.state._id,
+                addCampaign({
                     name: this.state.name,
                     content: this.state.content,
                     date: this.state.date,
@@ -131,18 +120,20 @@ class CampaignDetailModal extends Component {
     };
 
     render() {
-        const { visible, loading, name, content } = this.state;
-        const { tags, inputVisible, inputValue, date } = this.state;
+        const { visible, loading } = this.state;
+        const { tags, inputVisible, inputValue } = this.state;
         const tagChild = tags.map(this.forMap);
         const defaultMsg = "Let us drive a Campaign !!"
         return (
             < div >
-                <Button size="small"
+                <Button
+                    key="1"
                     type="primary"
+                    danger
+                    icon={<PlusOutlined />}
                     onClick={() => this.showModal()}
-                    icon={<ToolOutlined />}
                 >
-                    Update
+                    Start New Campaign
                 </Button>
                 <Modal
                     width={'70%'}
@@ -167,7 +158,7 @@ class CampaignDetailModal extends Component {
                                     modules={modules ? modules : null}
                                     formats={formats ? formats : null}
                                     onChange={this.saveContent}
-                                    value={content}
+                                    value={this.state.content}
                                     placeholder={defaultMsg}
                                     style={{ height: '270px', overflowY: 'scroll', overflow: 'hidden' }}
                                 /></>) : null}
@@ -175,10 +166,9 @@ class CampaignDetailModal extends Component {
                         <Col span={1} />
                         <Col span={6}>
                             <h4 >Product Name</h4>
-                            <p> <Input placeholder="Basic usage" value={name} onChange={this.saveName} /> </p>
+                            <p> <Input placeholder="Basic usage" onChange={this.saveName} /> </p>
                             <h4 style={{ marginTop: 15 }}>Date</h4>
-                            <p> <DatePicker selected={date} onChange={this.onChange} />
-                            </p>
+                            <p> <DatePicker onChange={this.onChange} /></p>
                             <h4>Targets</h4>
                             <p style={{ height: '180px', overflowY: 'scroll' }}>
                                 <div style={{ marginBottom: 16 }}>
@@ -231,5 +221,5 @@ const mapStateToProps = ({ campaigns }) => {
 };
 
 export default connect(mapStateToProps, {
-    editCampaign,
-})(CampaignDetailModal);
+    addCampaign
+})(NewCampaignModal);

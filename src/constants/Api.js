@@ -2,7 +2,7 @@ import axios from "axios";
 import { ACCESS_TOKEN, USER_DATA } from "../constants/storage";
 
 const Api = axios.create({
-    baseURL: 'http://3.80.162.41:8080',
+    baseURL: 'https://campaigns-server.herokuapp.com',
     headers: {
         Authorization: {
             toString() {

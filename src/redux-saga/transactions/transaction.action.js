@@ -1,73 +1,71 @@
-export const PURCHASE_PRODUCT = "PURCHASE_PRODUCT";
-export const PURCHASE_PRODUCT_SUCCESS = "PURCHASE_PRODUCT_SUCCESS";
-export const PURCHASE_PRODUCT_ERROR = "PURCHASE_PRODUCT_ERROR";
+export const FETCH_CAMPAIGNS = "FETCH_CAMPAIGNS";
+export const FETCH_CAMPAIGNS_SUCCESS = "FETCH_CAMPAIGNS_SUCCESS";
+export const FETCH_CAMPAIGNS_ERROR = "FETCH_CAMPAIGNS_ERROR";
 
-export const BUY_CREDIT = "BUY_CREDIT";
-export const BUY_CREDIT_SUCCESS = "BUY_CREDIT_SUCCESS";
-export const BUY_CREDIT_ERROR = "BUY_CREDIT_ERROR";
+export const ADD_CAMPAIGN = "ADD_CAMPAIGN";
+export const ADD_CAMPAIGN_SUCCESS = "ADD_CAMPAIGN_SUCCESS";
+export const ADD_CAMPAIGN_ERROR = "ADD_CAMPAIGN_ERROR";
 
-export const PRODUCTS_FOR_SALE = "PRODUCTS_FOR_SALE";
-export const PRODUCTS_FOR_SALE_SUCCESS = "PRODUCTS_FOR_SALE_SUCCESS";
-export const PRODUCTS_FOR_SALE_ERROR = "PRODUCTS_FOR_SALE_ERROR";
+export const EDIT_CAMPAIGN = "EDIT_CAMPAIGN";
+export const EDIT_CAMPAIGN_SUCCESS = "EDIT_CAMPAIGN_SUCCESS";
+export const EDIT_CAMPAIGN_ERROR = "EDIT_CAMPAIGN_ERROR";
 
-export const USER_BALANCE_HISTORY = "USER_BALANCE_HISTORY";
-export const USER_BALANCE_HISTORY_SUCCESS = "USER_BALANCE_HISTORY_SUCCESS";
-export const USER_BALANCE_HISTORY_ERROR = "USER_BALANCE_HISTORY_ERROR";
-
-
-export const purchaseProduct = (product, history) => ({
-    type: PURCHASE_PRODUCT,
-    payload: { product, history }
-});
-export const purchaseProductSuccess = (product) => ({
-    type: PURCHASE_PRODUCT_SUCCESS,
-    payload: { product }
-});
-export const purchaseProductError = (message) => ({
-    type: PURCHASE_PRODUCT_ERROR,
-    payload: { message }
-});
+export const DELETE_CAMPAIGN = "DELETE_CAMPAIGN";
+export const DELETE_CAMPAIGN_SUCCESS = "DELETE_CAMPAIGN_SUCCESS";
+export const DELETE_CAMPAIGN_ERROR = "DELETE_CAMPAIGN_ERROR";
 
 
-
-export const buyCredit = (credit) => ({
-    type: BUY_CREDIT,
-    payload: { credit }
-});
-export const buyCreditSuccess = (credit) => ({
-    type: BUY_CREDIT_SUCCESS,
-    payload: { credit }
-});
-export const buyCreditError = (message) => ({
-    type: BUY_CREDIT_ERROR,
-    payload: { message }
-});
-
-
-
-export const productForSale = () => ({
-    type: PRODUCTS_FOR_SALE,
+export const fetchCampaigns = () => ({
+    type: FETCH_CAMPAIGNS,
     payload: {}
 });
-export const productForSaleSuccess = products => ({
-    type: PRODUCTS_FOR_SALE_SUCCESS,
-    payload: { products }
+export const fetchCampaignsSuccess = (item) => ({
+    type: FETCH_CAMPAIGNS_SUCCESS,
+    payload: { item }
 });
-export const productForSaleError = message => ({
-    type: PRODUCTS_FOR_SALE_ERROR,
+export const fetchCampaignsError = (message) => ({
+    type: FETCH_CAMPAIGNS_ERROR,
     payload: { message }
 });
 
 
-export const userBalanceHistory = () => ({
-    type: USER_BALANCE_HISTORY,
-    payload: {}
+export const addCampaign = (item) => ({
+    type: ADD_CAMPAIGN,
+    payload: { item }
 });
-export const userBalanceHistorySuccess = history => ({
-    type: USER_BALANCE_HISTORY_SUCCESS,
-    payload: { history }
+export const addCampaignSuccess = (item) => ({
+    type: ADD_CAMPAIGN_SUCCESS,
+    payload: { item }
 });
-export const userBalanceHistoryError = message => ({
-    type: USER_BALANCE_HISTORY_ERROR,
+export const addCampaignError = (message) => ({
+    type: ADD_CAMPAIGN_ERROR,
+    payload: { message }
+});
+
+
+export const editCampaign = (item) => ({
+    type: EDIT_CAMPAIGN,
+    payload: { item }
+});
+export const editCampaignSuccess = (item) => ({
+    type: EDIT_CAMPAIGN_SUCCESS,
+    payload: { item }
+});
+export const editCampaignError = (message) => ({
+    type: EDIT_CAMPAIGN_ERROR,
+    payload: { message }
+});
+
+
+export const deleteCampaign = (item) => ({
+    type: DELETE_CAMPAIGN,
+    payload: { item }
+});
+export const deleteCampaignSuccess = (item) => ({
+    type: DELETE_CAMPAIGN_SUCCESS,
+    payload: { item }
+});
+export const deleteCampaignError = (message) => ({
+    type: DELETE_CAMPAIGN_ERROR,
     payload: { message }
 });
