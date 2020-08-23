@@ -174,7 +174,7 @@ class CampaignDetailModal extends Component {
                         </Col>
                         <Col span={1} />
                         <Col span={6}>
-                            <h4 >Product Name</h4>
+                            <h4 >Campaign Name</h4>
                             <p> <Input placeholder="Basic usage" value={name} onChange={this.saveName} /> </p>
                             <h4 style={{ marginTop: 15 }}>Date</h4>
                             <p> <DatePicker selected={date} onChange={this.onChange} />
